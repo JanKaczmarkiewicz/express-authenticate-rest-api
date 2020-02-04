@@ -1,8 +1,9 @@
 import jwt from "jsonwebtoken";
 import { RequestHandler } from "express";
-import { secret } from "../config/default.json";
+
 import { send } from "../utils/responce";
 import { AuthRequest } from "../types";
+import env from "../config/env";
 
 export const auth: RequestHandler = (req: AuthRequest, res, next) => {
   const bearerToken = req.headers.authorization;
@@ -10,7 +11,7 @@ export const auth: RequestHandler = (req: AuthRequest, res, next) => {
   if (bearerToken) {
     try {
       const authToken = bearerToken.split(" ")[1];
-      const data: any = jwt.verify(authToken, secret);
+      const data: any = jwt.verify(authToken, env("PASSWORD_SECRET"));
       req.userId = data.id;
     } catch (err) {
       send(

@@ -5,13 +5,12 @@ import jwt from "jsonwebtoken";
 import { validate, check } from "../middleware/validate";
 
 import User from "../Models/User";
-import { secret } from "../config/default.json";
 import { send } from "../utils/responce";
-
+import env from "../config/env";
 const router = express.Router();
 
 export const createToken = (id: string): string =>
-  jwt.sign({ id }, secret, {
+  jwt.sign({ id }, env("PASSWORD_SECRET"), {
     expiresIn: "1h"
   });
 

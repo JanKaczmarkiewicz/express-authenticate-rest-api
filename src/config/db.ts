@@ -1,15 +1,15 @@
 import mongoose from "mongoose";
-import config from "./default.json";
+import env from "./env";
 
 const connectDB = async () => {
   try {
-    await mongoose.connect(config.mongoURL, {
+    await mongoose.connect(env("MONGO_URL"), {
       useNewUrlParser: true,
       useFindAndModify: false,
       useCreateIndex: true,
       useUnifiedTopology: true
     });
-    console.error("Connected to the database!");
+    console.log("Connected to the database!");
   } catch (err) {
     console.error("Database Error:", err);
     process.exit(1);
