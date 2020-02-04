@@ -20,9 +20,6 @@ const user = new mongoose.Schema<User>({
     maxlength: 9,
     required: true
   },
-  email: {
-    type: String
-  },
   password: {
     type: String,
     required: true
