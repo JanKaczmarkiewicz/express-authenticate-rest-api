@@ -1,16 +1,20 @@
-import mongoose from "mongoose";
-import { Street } from "./Street";
+import mongoose, { Schema, Document } from "mongoose";
+import { IStreet } from "./Street";
 
-export interface House {
+export interface IHouse {
   number: string;
-  street: Street;
+  street: IStreet;
   createdAt: string;
 }
 
-const street = new mongoose.Schema({
+const street: Schema = new mongoose.Schema({
   number: {
     type: String,
     required: true
+  },
+  street: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Street"
   },
   createdAt: {
     type: Date,
@@ -18,4 +22,4 @@ const street = new mongoose.Schema({
     required: true
   }
 });
-export default mongoose.model("Event", street);
+export default mongoose.model<IHouse & Document>("House", street);
