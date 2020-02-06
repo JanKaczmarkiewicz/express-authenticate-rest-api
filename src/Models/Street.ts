@@ -1,20 +1,21 @@
 import mongoose, { Document, Schema } from "mongoose";
 import { IUser } from "./User";
 
-export interface IStreet {
+export interface IStreet extends Document {
   name: string;
-  creator: any;
+  creator: IUser;
   createdAt: string;
 }
 
-const street: Schema = new mongoose.Schema<IStreet>({
+const street: Schema = new mongoose.Schema({
   name: {
     type: String,
     required: true
   },
   creator: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "User"
+    ref: "User",
+    required: true
   },
   createdAt: {
     type: Date,
@@ -22,4 +23,4 @@ const street: Schema = new mongoose.Schema<IStreet>({
     required: true
   }
 });
-export default mongoose.model<IStreet & Document>("Street", street);
+export default mongoose.model<IStreet>("Street", street);

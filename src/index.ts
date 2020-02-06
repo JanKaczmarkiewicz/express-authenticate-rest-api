@@ -10,6 +10,7 @@ import errorHandler from "./middleware/errorHandler";
 import authRoute from "./routes/auth";
 import userRoute from "./routes/user";
 import streetRoute from "./routes/street";
+import houseRoute from "./routes/house";
 
 // create express app
 const app = express();
@@ -28,5 +29,6 @@ connectDB();
 app.use("/api/user", userRoute);
 app.use("/api/auth", authRoute);
 app.use("/api/street", streetRoute);
+app.use("/api/house", houseRoute);
 
 app.listen(port, () => console.log(`App listening on port ${port}!`));

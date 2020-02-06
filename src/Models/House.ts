@@ -1,13 +1,15 @@
 import mongoose, { Schema, Document } from "mongoose";
 import { IStreet } from "./Street";
+import { IUser } from "./User";
 
-export interface IHouse {
+export interface IHouse extends Document {
   number: string;
   street: IStreet;
+  creator: IUser;
   createdAt: string;
 }
 
-const street: Schema = new mongoose.Schema({
+const house: Schema = new mongoose.Schema({
   number: {
     type: String,
     required: true
@@ -16,10 +18,15 @@ const street: Schema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "Street"
   },
+  creator: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+    required: true
+  },
   createdAt: {
     type: Date,
     default: Date.now(),
     required: true
   }
 });
-export default mongoose.model<IHouse & Document>("House", street);
+export default mongoose.model<IHouse>("House", house);
