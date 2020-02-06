@@ -2,12 +2,19 @@ import CRUDRoute from "./template/crud";
 import Street, { IStreet } from "../Models/Street";
 
 type SanitizedObject = {
+  id: string;
   name: IStreet["name"];
   creator: IStreet["creator"];
   createdAt: IStreet["createdAt"];
 };
 
-const sanitize = ({ name, creator, createdAt }: IStreet): SanitizedObject => ({
+const sanitize = ({
+  _id,
+  name,
+  creator,
+  createdAt
+}: IStreet): SanitizedObject => ({
+  id: _id,
   name,
   createdAt,
   creator
