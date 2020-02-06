@@ -1,5 +1,6 @@
 import { Response, RequestHandler } from "express";
-
+import jwt from "jsonwebtoken";
+import env from "../config/env";
 let responceApi: Response | null = null;
 
 const setupResponce: RequestHandler = (req, res, next) => {
@@ -26,5 +27,9 @@ const send = (type: ResponseType, status: number, message: any) => {
   }
 };
 
+export const createToken = (id: string): string =>
+  jwt.sign({ id }, env("PASSWORD_SECRET"), {
+    expiresIn: "1h"
+  });
 export { send };
 export default setupResponce;

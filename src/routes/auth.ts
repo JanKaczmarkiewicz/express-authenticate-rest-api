@@ -1,18 +1,12 @@
 import express, { RequestHandler } from "express";
 import bcrypt from "bcryptjs";
-import jwt from "jsonwebtoken";
 
 import { validate, check } from "../middleware/validate";
 
 import User from "../Models/User";
-import { send } from "../utils/responce";
-import env from "../config/env";
-const router = express.Router();
+import { send, createToken } from "../utils/responce";
 
-export const createToken = (id: string): string =>
-  jwt.sign({ id }, env("PASSWORD_SECRET"), {
-    expiresIn: "1h"
-  });
+const router = express.Router();
 
 const wrongDataEnteredMessage =
   "The password or phone number that have been entered is incorrect.";

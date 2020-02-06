@@ -3,7 +3,7 @@ import { IUser } from "./User";
 
 export interface IStreet {
   name: string;
-  creator: IUser;
+  creator: any;
   createdAt: string;
 }
 
@@ -13,8 +13,8 @@ const street: Schema = new mongoose.Schema<IStreet>({
     required: true
   },
   creator: {
-    ref: mongoose.Schema.Types.ObjectId,
-    type: "User"
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User"
   },
   createdAt: {
     type: Date,

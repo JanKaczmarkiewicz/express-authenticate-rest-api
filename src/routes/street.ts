@@ -23,7 +23,7 @@ const sanitize = ({ name, creator, createdAt }: IStreet): SanitizedObject => ({
 });
 
 /**
- * @route GET /api/streets
+ * @route GET /api/street
  * @desc Get all streets
  * @returns all Streets
  * @access public
@@ -46,7 +46,7 @@ router.get("/", (async (req, res) => {
 }) as RequestHandler);
 
 /**
- * @route GET /api/streets
+ * @route GET /api/street
  * @desc Get single street
  * @returns Street with specefied id
  * @access public
@@ -69,7 +69,7 @@ router.get("/:id", (async (req, res) => {
 }) as RequestHandler);
 
 /**
- * @route POST /api/Streets
+ * @route POST /api/streets
  * @desc Add Street
  * @access private
  */

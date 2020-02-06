@@ -10,7 +10,7 @@ import User from "../Models/User";
 
 //utils
 import { send } from "../utils/responce";
-import { createToken } from "./auth";
+import { createToken } from "../utils/responce";
 
 //type
 import { AuthRequest } from "../types";
