@@ -6,7 +6,7 @@ import { validate, check } from "../middleware/validate";
 import { auth } from "../middleware/auth";
 
 //model
-import User from "../Models/User";
+import User, { IUser } from "../Models/User";
 
 //utils
 import { send } from "../utils/responce";
@@ -14,38 +14,59 @@ import { createToken } from "../utils/responce";
 
 //type
 import { AuthRequest } from "../types";
+import endpointTemplate, { Sanitizer } from "./template/crud";
 
 const router = express.Router();
 
 type UserData = {
-  name: string;
-  email: string;
+  id: string;
+  name: IUser["name"];
+  phone: IUser["phone"];
+  createdAt: IUser["createdAt"];
 };
 
-/**
- * @route GET /api/user
- * @desc Get user data
- * @access private
- */
-router.get("/", auth, async (req: AuthRequest, res) => {
-  try {
-    if (req.userId) {
-      const userData = await User.findById(req.userId);
-
-      if (!userData) {
-        send("ERROR", 400, "Please log in again.");
-        return;
-      }
-
-      send("DATA", 200, {
-        name: userData.name,
-        email: userData.email
-      } as UserData);
-    }
-  } catch (error) {
-    console.error(error);
-  }
+const sanitize: Sanitizer = ({
+  _id,
+  name,
+  phone,
+  createdAt
+}: IUser): UserData => ({
+  id: _id,
+  name,
+  phone,
+  createdAt
 });
+
+const { getOne, getAll } = endpointTemplate(User, sanitize, []);
+[getAll, getOne].forEach(attach => attach(router));
+
+// router.put(
+//   "/:id",
+//   [auth, check["name"], validate],
+//   async (req: AuthRequest) => {
+//     const update = {
+//       name: req.body.name,
+//       creator: req.userId
+//     };
+
+//     try {
+//       const updatedDocument = await Model.findOneAndUpdate(
+//         {
+//           _id: req.params.id
+//         },
+//         update,
+//         {
+//           new: true,
+//           upsert: true
+//         }
+//       );
+
+//       send("DATA", 200, sanitize(updatedDocument));
+//     } catch (err) {
+//       send("DATA", 404, "Write error.");
+//     }
+//   }
+// );
 
 /**
  * @route POST /api/user

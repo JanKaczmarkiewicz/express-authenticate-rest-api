@@ -1,5 +1,6 @@
-import CRUDRoute, { Sanitizer } from "./template/crud";
+import endpointTemplate, { Sanitizer } from "./template/crud";
 import House, { IHouse } from "../Models/House";
+import express from "express";
 
 type SanitizedObject = {
   id: string;
@@ -7,6 +8,7 @@ type SanitizedObject = {
   creator: IHouse["creator"];
   createdAt: IHouse["createdAt"];
 };
+
 const sanitize: Sanitizer = ({
   _id,
   number,
@@ -19,6 +21,12 @@ const sanitize: Sanitizer = ({
   creator
 });
 
-const router = CRUDRoute(House, sanitize);
+const router = express.Router();
+const { add, getAll, getOne, update, remove } = endpointTemplate(
+  House,
+  sanitize,
+  ["number"]
+);
+[add, getAll, getOne, update, remove].forEach(attach => attach(router));
 
 export default router;

@@ -5,7 +5,7 @@
   "main": "src/index.ts",
   "scripts": {
     "prebuild": "tslint -c tslint.json -p tsconfig.json --fix",
-    "start": "tsnd --respawn src/index.ts",
+    "start": "concurrently \"tsnd --respawn src/index.ts\" \"npm start --prefix ./client\"",
     "build": "tsc"
   },
   "author": "",

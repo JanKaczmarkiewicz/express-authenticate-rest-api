@@ -1,9 +1,19 @@
-import { validationResult } from "express-validator";
+import { validationResult, ValidationChain } from "express-validator";
 import { RequestHandler } from "express";
 import { send } from "../utils/responce";
 import { check } from "express-validator";
-const checkFormat = {
+
+type Checks = {
+  [key: string]: ValidationChain;
+};
+
+const checkFormat: Checks = {
   name: check("name", "Name is required.")
+    .not()
+    .isEmpty()
+    .isString(),
+  number: check("number", "Number is should be text.")
+    .isString()
     .not()
     .isEmpty(),
   phone: check("phone", "Please include a valid phone number")
@@ -22,6 +32,7 @@ const checkFormat = {
 export { checkFormat as check };
 
 export const validate: RequestHandler = (req, res, next) => {
+  console.log(req.body);
   const warnings = validationResult(req);
 
   if (!warnings.isEmpty()) {
